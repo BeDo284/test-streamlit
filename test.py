@@ -1,29 +1,25 @@
 import streamlit as st
-import pandas as pd
 
-# Initialize a session state for the dataframe
-if 'data' not in st.session_state:
-    st.session_state['data'] = pd.DataFrame(columns=['Name', 'Age', 'City'])
+# Sample project descriptions (replace with your actual data)
+project_descriptions = {
+    "Project A": "Description of Project A.",
+    "Project B": "Description of Project B.",
+    "Project C": "Description of Project C.",
+    "Project D": "Description of Project D."
+}
 
-# Function to add data to the dataframe
-def add_data(name, age, city):
-    new_data = pd.DataFrame({'Name': [name], 'Age': [age], 'City': [city]})
-    st.session_state['data'] = pd.concat([st.session_state['data'], new_data], ignore_index=True)
+# Create a sidebar with a dropdown menu
+st.sidebar.title("Project Selector")
+selected_project = st.sidebar.selectbox("Select a project", list(project_descriptions.keys()))
 
-st.title('Add Data to DataFrame')
+# Define a session state to keep track of the selected project's description
+session_state = st.session_state
 
-# Input form
-with st.form(key='add_data_form'):
-    name = st.text_input('Name')
-    age = st.number_input('Age', min_value=0)
-    city = st.text_input('City')
-    submit_button = st.form_submit_button(label='Add Data')
+if 'selected_project_description' not in session_state:
+    session_state.selected_project_description = ""
 
-# Add data if the form is submitted
-if submit_button:
-    add_data(name, age, city)
-    st.success(f'Data added: {name}, {age}, {city}')
-
-# Display the dataframe
-st.write('Current Data:')
-st.dataframe(st.session_state['data'])
+# Display the selected project's description on a new page
+if selected_project:
+    session_state.selected_project_description = project_descriptions[selected_project]
+    st.title(selected_project)
+    st.write(session_state.selected_project_description)

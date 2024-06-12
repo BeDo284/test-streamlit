@@ -84,6 +84,9 @@ item1 = Item(code="001", name="Widget", description="A useful widget", item_type
 project1 = Project(name="Project Alpha", description="A project for developing Alpha widgets",
                    readme="This project focuses on developing and improving widgets.")
 
+project2 = Project(name="Project Beta", description="A project for developing Beta widgets",
+                   readme="This project focuses on developing and improving widgets.")
+
 print(f"Before adding item to project: {item1}")
 project1.addItem(item1, 50)
 print(f"After adding item to project: {item1}")
@@ -94,6 +97,7 @@ item2 = Item(code="002", name="Gadget", description="A fancy gadget", item_type=
 item_list.append(item1)
 item_list.append(item2)
 project_list.append(project1)
+project_list.append(project2)
 
 project1.addItem(item2, 75)
 
@@ -120,6 +124,15 @@ df = pd.DataFrame(data)
 
 st.write("### Items DataFrame")
 st.dataframe(df)
+# ---------------------------
 
+add_selectbox = st.sidebar.button("inventory",)
 
-#---------------------------
+st.sidebar.title("Project Selector")
+selected_project = st.sidebar.selectbox("Select a project", project_list)
+st.write(f"You selected: {selected_project}")
+
+if selected_project:
+    st.write(f"Details of {selected_project}:")
+
+st.write("Details and options specific to Project A")
